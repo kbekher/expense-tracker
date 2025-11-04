@@ -1,0 +1,11 @@
+# Don't deploy these
+node_modules
+.env
+.env.local
+.git
+.gitignore
+README.md
+VERCEL_DEPLOYMENT.md
+VERCEL_QUICK_START.md
+GOOGLE_OAUTH_SETUP.md
+

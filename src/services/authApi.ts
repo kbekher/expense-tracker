@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL 
-  ? `${import.meta.env.VITE_API_URL}/api` 
-  : '/api';
+// For Vercel, API routes are at /api
+const API_BASE_URL = '/api';
 
 // Register with email/password
 export const register = async (username: string, email: string, password: string) => {

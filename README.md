@@ -16,121 +16,91 @@ A modern Progressive Web App for tracking daily expenses with support for recurr
 
 - **Frontend**: React + TypeScript + Vite
 - **Authentication**: JWT + Google OAuth 2.0
-- **Backend**: Node.js + Express
-- **Database**: MongoDB with Mongoose
+- **Backend**: Vercel Serverless Functions
+- **Database**: MongoDB Atlas
 - **PWA**: Vite PWA Plugin
+- **Hosting**: Vercel (Full-Stack)
 
-## Setup Instructions
+## 🚀 Quick Deploy to Vercel
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- MongoDB (local installation or MongoDB Atlas account)
+- GitHub account
+- MongoDB Atlas account (free tier)
+- Google OAuth Client ID (optional, for Google sign-in)
 
-### MongoDB Setup
+### Step 1: Setup MongoDB Atlas
 
-#### Option 1: Local MongoDB
+1. **Create free account**: https://www.mongodb.com/cloud/atlas
+2. **Create a cluster** (free M0 tier)
+3. **Create database user**:
+   - Username: `expense-user`
+   - Password: (generate a strong one)
+4. **Whitelist all IPs**: Add `0.0.0.0/0` to IP Access List
+5. **Get connection string**: 
+   - Click "Connect" → "Connect your application"
+   - Copy string: `mongodb+srv://expense-user:PASSWORD@cluster.mongodb.net/expense-tracker`
 
-1. Install MongoDB on your system:
-   - **macOS**: `brew install mongodb-community`
-   - **Windows**: Download from [MongoDB website](https://www.mongodb.com/try/download/community)
-   - **Linux**: `sudo apt-get install mongodb` or `sudo yum install mongodb`
+### Step 2: Deploy to Vercel
 
-2. Start MongoDB service:
-   - **macOS/Linux**: `mongod` (or `brew services start mongodb-community` on macOS)
-   - **Windows**: MongoDB should start as a service automatically
-
-3. MongoDB will run on `mongodb://localhost:27017` by default
-
-#### Option 2: MongoDB Atlas (Cloud)
-
-1. Create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. Create a new cluster (free tier is sufficient)
-3. Create a database user
-4. Get your connection string (it will look like: `mongodb+srv://username:password@cluster.mongodb.net/expense-tracker`)
-5. Add your IP address to the whitelist (or use `0.0.0.0/0` for development)
-
-### Installation
-
-1. **Clone or navigate to the project directory**:
+1. **Push to GitHub**:
    ```bash
-   cd expense-tracker
+   git add .
+   git commit -m "Deploy to Vercel"
+   git push origin main
    ```
 
-2. **Install frontend dependencies**:
-   ```bash
-   npm install
-   ```
+2. **Deploy**:
+   - Go to https://vercel.com
+   - Sign in with GitHub
+   - Click **"Add New Project"**
+   - Import your `expense-tracker` repository
+   - Click **"Deploy"**
 
-3. **Install backend dependencies**:
-   ```bash
-   cd server
-   npm install
-   ```
-
-4. **Set up environment variables**:
+3. **Add Environment Variables** in Vercel:
    
-   **Backend** - Create `server/.env`:
-   ```bash
-   cd server
-   touch .env
-   ```
+   Go to **Settings** → **Environment Variables** and add:
    
-   Add the following to `server/.env`:
-   ```env
-   PORT=3001
-   MONGODB_URI=mongodb://localhost:27017/expense-tracker
-   NODE_ENV=development
-   JWT_SECRET=your-super-secret-jwt-key-change-this
-   ```
+   | Key | Value |
+   |-----|-------|
+   | `MONGODB_URI` | `mongodb+srv://user:pass@cluster.mongodb.net/expense-tracker` |
+   | `JWT_SECRET` | Any random long string (e.g., `abc123xyz789...`) |
+   | `VITE_GOOGLE_CLIENT_ID` | Your Google Client ID (optional) |
    
-   If using MongoDB Atlas, replace `MONGODB_URI` with your Atlas connection string:
-   ```env
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/expense-tracker
+4. **Redeploy** after adding environment variables
+
+### Step 3: Configure Google OAuth (Optional)
+
+1. Go to https://console.cloud.google.com/apis/credentials
+2. Create OAuth 2.0 Client ID (or edit existing)
+3. Add **Authorized JavaScript origins**:
    ```
-   
-   **Frontend** - Create `.env` in project root:
-   ```bash
-   cd /Users/k.bekher/Projects/expense-tracker
-   touch .env
+   https://your-app.vercel.app
+   http://localhost:5173
    ```
-   
-   Add your Google OAuth Client ID (optional, but recommended for Google Sign-In):
-   ```env
-   VITE_GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
-   ```
-   
-   See [GOOGLE_OAUTH_SETUP.md](./GOOGLE_OAUTH_SETUP.md) for detailed Google OAuth setup instructions.
+4. Copy Client ID to Vercel environment variables
+5. Wait 5 minutes for changes to propagate
 
-### Running the Application
+---
 
-1. **Start the backend server** (in one terminal):
-   ```bash
-   cd server
-   npm run dev
-   ```
-   
-   The server will run on `http://localhost:3001`
+## 🖥️ Local Development
 
-2. **Start the frontend development server** (in another terminal):
-   ```bash
-   npm run dev
-   ```
-   
-   The app will be available at `http://localhost:5173`
+```bash
+npm install
+npm run dev
+```
 
-3. **Open your browser** and navigate to `http://localhost:5173`
+Open http://localhost:5173
 
-## Usage
+**Note:** Backend API runs as Vercel serverless functions in production, but for local dev you can test directly with the deployed Vercel backend.
 
-### First Time Setup
+## 📱 Usage
 
-1. When you first open the app, you'll see the login screen
-2. You can either:
-   - **Sign up with email**: Click "Sign up" and create an account with username, email, and password
-   - **Sign in with Google**: Click the Google button for instant authentication
-3. Your account is securely stored in MongoDB
-4. You'll stay logged in (JWT token stored securely)
+1. **Sign up** with email/password or Google
+2. **Create categories** (Food, Rent, etc.)
+3. **Add expenses** daily
+4. **Set up recurring payments** (rent, subscriptions)
+5. **View overview** - monthly and yearly statistics
 
 ### Creating Categories
 
@@ -172,19 +142,18 @@ To exclude a recurring payment from the current month, click the "Exclude" butto
    - Category breakdown with visual bars
    - Recent expenses list
 
-## Building for Production
+## 🏗️ Architecture
 
-### Frontend
+**Vercel Serverless Functions** (`/api` directory):
+- `/api/auth.js` - Authentication (login, signup, Google OAuth)
+- `/api/categories.js` - Category management (coming soon)
+- `/api/expenses.js` - Expense tracking (coming soon)
+- `/api/recurring-payments.js` - Recurring payments (coming soon)
 
-```bash
-npm run build
-```
-
-The built files will be in the `dist` directory. You can serve them with any static file server.
-
-### Backend
-
-The backend is already configured for production. Just make sure to set `NODE_ENV=production` in your `.env` file.
+**Frontend** (React + TypeScript):
+- PWA with offline support
+- Modern UI with responsive design
+- Google OAuth integration
 
 ## PWA Installation
 
@@ -196,86 +165,54 @@ The app is a Progressive Web App and can be installed on your device:
 
 Once installed, the app will work offline and can be launched like a native app.
 
-## API Endpoints
+## 📚 API Documentation
 
-### Users
-- `POST /api/users` - Create or get user
-- `GET /api/users/:id` - Get user by ID
+### Authentication
+- `POST /api/auth/register` - Create account
+- `POST /api/auth/login` - Login
+- `POST /api/auth/google` - Google OAuth
+- `GET /api/auth/me` - Get current user
 
-### Categories
-- `GET /api/categories/user/:userId` - Get all categories for user
-- `POST /api/categories` - Create category
-- `PUT /api/categories/:id` - Update category
-- `DELETE /api/categories/:id` - Delete category
+### Categories (Coming Soon)
+- Create, update, delete expense categories
 
-### Expenses
-- `GET /api/expenses/user/:userId` - Get expenses (with optional query params: startDate, endDate, categoryId)
-- `GET /api/expenses/stats/user/:userId` - Get expense statistics (with optional query params: year, month)
-- `POST /api/expenses` - Create expense
-- `DELETE /api/expenses/:id` - Delete expense
+### Expenses (Coming Soon)
+- Track daily expenses
+- View statistics by month/year
 
-### Recurring Payments
-- `GET /api/recurring-payments/user/:userId` - Get all recurring payments
-- `POST /api/recurring-payments` - Create recurring payment
-- `PUT /api/recurring-payments/:id` - Update recurring payment
-- `POST /api/recurring-payments/:id/toggle-exclude` - Toggle exclude from current month
-- `DELETE /api/recurring-payments/:id` - Delete recurring payment
+### Recurring Payments (Coming Soon)
+- Set up monthly recurring expenses
+- Exclude from specific months
 
-## Database Schema
+## 🗄️ Database (MongoDB Atlas)
 
-### User
-- `_id`: ObjectId
-- `username`: String
-- `email`: String (unique)
-- `createdAt`: Date
+Free tier includes:
+- 512 MB storage
+- Shared RAM
+- No credit card required
+- Perfect for personal projects
 
-### Category
-- `_id`: ObjectId
-- `userId`: ObjectId (ref: User)
-- `name`: String
-- `color`: String (hex color)
-- `createdAt`: Date
+Models: User, Category, Expense, RecurringPayment
 
-### Expense
-- `_id`: ObjectId
-- `userId`: ObjectId (ref: User)
-- `amount`: Number
-- `categoryId`: ObjectId (ref: Category)
-- `date`: Date
-- `description`: String (optional)
-- `createdAt`: Date
+## 🐛 Troubleshooting
 
-### RecurringPayment
-- `_id`: ObjectId
-- `userId`: ObjectId (ref: User)
-- `name`: String
-- `amount`: Number
-- `categoryId`: ObjectId (ref: Category)
-- `dayOfMonth`: Number (1-31)
-- `excludedMonths`: Array of Strings (format: "YYYY-MM")
-- `isActive`: Boolean
-- `createdAt`: Date
+**Build fails on Vercel:**
+- Check environment variables are set
+- View deployment logs in Vercel dashboard
 
-## Troubleshooting
+**MongoDB connection error:**
+- Verify `MONGODB_URI` is correct
+- Check IP whitelist: add `0.0.0.0/0`
 
-### MongoDB Connection Issues
+**Google OAuth not working:**
+- Add Vercel URL to authorized origins
+- Wait 5 minutes after making changes
+- Check Google Client ID is correct
 
-- Ensure MongoDB is running: `mongod` or check services
-- Verify the connection string in `server/.env`
-- For MongoDB Atlas, check your IP whitelist
-- Check MongoDB logs for errors
-
-### Backend Server Not Starting
-
-- Check if port 3001 is already in use
-- Verify all dependencies are installed: `cd server && npm install`
-- Check the `.env` file exists and has correct values
-
-### Frontend Not Connecting to Backend
-
-- Ensure the backend server is running on port 3001
-- Check the Vite proxy configuration in `vite.config.ts`
-- Verify the API base URL in `src/services/api.ts`
+**API 404 errors:**
+- Wait 30 seconds after deployment
+- Clear browser cache
+- Check Vercel function logs
 
 ## License
 

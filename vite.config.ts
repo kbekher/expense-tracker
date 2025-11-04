@@ -30,12 +30,8 @@ export default defineConfig({
     })
   ],
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001',
-        changeOrigin: true
-      }
-    }
+    // For local dev, API calls will go to deployed Vercel backend
+    // Or use 'vercel dev' to run API functions locally
   },
   build: {
     sourcemap: false,

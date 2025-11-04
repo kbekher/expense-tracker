@@ -29,6 +29,5 @@ dist-ssr
 .env.production.local
 .env.development.local
 
-# Server
-server/node_modules
-server/.env
+# Vercel
+.vercel

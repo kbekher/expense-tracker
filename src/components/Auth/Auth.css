@@ -143,6 +143,16 @@
   border: 1px solid #fecaca;
 }
 
+.info-message {
+  background: #dbeafe;
+  color: #1e40af;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  border: 1px solid #93c5fd;
+}
+
 @media (max-width: 768px) {
   .auth-card {
     padding: 2rem 1.5rem;

@@ -77,6 +77,12 @@ export default function Register({ onSwitchToLogin }: RegisterProps) {
         <h2>Create Account</h2>
         <p className="auth-subtitle">Start tracking your expenses today</p>
 
+        {loading && (
+          <div className="info-message">
+            ⏳ First request may take up to 1 minute as server wakes up...
+          </div>
+        )}
+
         {error && <div className="error-message">{error}</div>}
 
         <div className="google-login-wrapper">

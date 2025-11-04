@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getExpenseStats, getRecurringPayments, getCategories } from '../services/api';
-import type { ExpenseStats, RecurringPayment, Category } from '../types';
+import { getExpenseStats, getRecurringPayments } from '../services/api';
+import type { ExpenseStats, RecurringPayment } from '../types';
 
 interface OverviewProps {
   userId: string;

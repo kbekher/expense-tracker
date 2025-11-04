@@ -1,0 +1,81 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+  z-index: 1000;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  min-width: 60px;
+  transition: all 0.2s;
+}
+
+.nav-item svg {
+  stroke: currentColor;
+}
+
+.nav-item span {
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.nav-item.active {
+  color: var(--accent-purple);
+}
+
+.nav-item:not(.add-button):active {
+  transform: scale(0.95);
+}
+
+.add-button {
+  position: relative;
+  padding: 0;
+  margin-top: -1.5rem;
+}
+
+.add-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-purple-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+  transition: all 0.2s;
+}
+
+.add-button:active .add-icon {
+  transform: scale(0.9);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.add-icon svg {
+  stroke: white;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 24px 24px 0 0;
+  }
+}
+

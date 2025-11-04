@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import { createExpense, getCategories } from '../services/api';
 import type { Category } from '../types';
+import NumericKeypad from './NumericKeypad';
 
 interface ExpenseInputProps {
   userId: string;
 }
 
 export default function ExpenseInput({ userId }: ExpenseInputProps) {
-  const [amount, setAmount] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [description, setDescription] = useState('');
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -30,24 +29,21 @@ export default function ExpenseInput({ userId }: ExpenseInputProps) {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!amount || !categoryId || parseFloat(amount) <= 0) {
-      alert('Please enter a valid amount and select a category');
+  const handleSubmit = async (amount: number) => {
+    if (!categoryId) {
+      alert('Please select a category');
       return;
     }
 
     setLoading(true);
     try {
-      await createExpense(userId, parseFloat(amount), categoryId, new Date(), description);
-      setAmount('');
-      setDescription('');
+      await createExpense(userId, amount, categoryId, new Date());
       setSuccess(true);
       setTimeout(() => setSuccess(false), 2000);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to create expense:', error);
-      alert('Failed to add expense. Please try again.');
+      const errorMsg = error.response?.data?.error || 'Failed to add expense. Please try again.';
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -65,60 +61,27 @@ export default function ExpenseInput({ userId }: ExpenseInputProps) {
 
   return (
     <div className="expense-input">
-      <h2>Add New Expense</h2>
-      <form onSubmit={handleSubmit} className="expense-form">
-        <div className="form-group">
-          <label htmlFor="amount">Amount (€)</label>
-          <input
-            type="number"
-            id="amount"
-            step="0.01"
-            min="0"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="0.00"
-            required
-            autoFocus
-          />
+      <h2>Add Expense</h2>
+      
+      {success && (
+        <div className="success-message">
+          ✅ Expense added successfully!
         </div>
+      )}
 
-        <div className="form-group">
-          <label htmlFor="category">Category</label>
-          <select
-            id="category"
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-            required
-          >
-            {categories.map((cat) => (
-              <option key={cat._id} value={cat._id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+      {loading ? (
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p>Adding expense...</p>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="description">Description (optional)</label>
-          <input
-            type="text"
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="What did you spend on?"
-          />
-        </div>
-
-        <button type="submit" className="submit-btn" disabled={loading}>
-          {loading ? 'Adding...' : '➕ Add Expense'}
-        </button>
-
-        {success && (
-          <div className="success-message">
-            ✅ Expense added successfully!
-          </div>
-        )}
-      </form>
+      ) : (
+        <NumericKeypad
+          onSubmit={handleSubmit}
+          categoryId={categoryId}
+          categories={categories}
+          onCategoryChange={setCategoryId}
+        />
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import ExpenseInput from './components/ExpenseInput';
 import Overview from './components/Overview';
 import Categories from './components/Categories';
 import RecurringPayments from './components/RecurringPayments';
+import BottomNav from './components/BottomNav';
 
 function App() {
   const { user, logout, loading } = useAuth();
@@ -35,42 +36,16 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-content">
-          <div>
-            <h1>💰 Expense Tracker</h1>
-            <p className="user-info">Welcome, {user.username}!</p>
-          </div>
+          <h1>Expense Tracker</h1>
           <button onClick={logout} className="logout-btn">
-            Logout
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
           </button>
         </div>
       </header>
-
-      <nav className="app-nav">
-        <button
-          className={activeTab === 'overview' ? 'active' : ''}
-          onClick={() => setActiveTab('overview')}
-        >
-          📊 Overview
-        </button>
-        <button
-          className={activeTab === 'input' ? 'active' : ''}
-          onClick={() => setActiveTab('input')}
-        >
-          ➕ Add Expense
-        </button>
-        <button
-          className={activeTab === 'categories' ? 'active' : ''}
-          onClick={() => setActiveTab('categories')}
-        >
-          🏷️ Categories
-        </button>
-        <button
-          className={activeTab === 'recurring' ? 'active' : ''}
-          onClick={() => setActiveTab('recurring')}
-        >
-          🔄 Recurring
-        </button>
-      </nav>
 
       <main className="app-main">
         {activeTab === 'overview' && <Overview userId={user._id} />}
@@ -78,6 +53,8 @@ function App() {
         {activeTab === 'categories' && <Categories userId={user._id} />}
         {activeTab === 'recurring' && <RecurringPayments userId={user._id} />}
       </main>
+
+      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );
 }

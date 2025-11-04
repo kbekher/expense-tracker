@@ -5,6 +5,18 @@
     {
       "source": "/api/auth/:path*",
       "destination": "/api/auth"
+    },
+    {
+      "source": "/api/categories/:path*",
+      "destination": "/api/categories"
+    },
+    {
+      "source": "/api/expenses/:path*",
+      "destination": "/api/expenses"
+    },
+    {
+      "source": "/api/recurring-payments/:path*",
+      "destination": "/api/recurring-payments"
     }
   ]
 }

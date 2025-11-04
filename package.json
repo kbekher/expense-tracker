@@ -5,8 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:vercel": "vercel dev",
     "build": "vite build",
     "vercel-build": "vite build",
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel",
     "lint": "eslint .",
     "preview": "vite preview"
   },

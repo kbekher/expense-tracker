@@ -32,13 +32,10 @@ In Vercel dashboard, go to **Settings** → **Environment Variables**
 Add these:
 
 **Key:** `MONGODB_URI`  
-**Value:** `mongodb+srv://your-username:password@cluster.mongodb.net/expense-tracker`
 
 **Key:** `JWT_SECRET`  
-**Value:** `your-random-secret-key-here`
 
 **Key:** `VITE_GOOGLE_CLIENT_ID` (optional, for Google OAuth)  
-**Value:** `your-google-client-id.apps.googleusercontent.com`
 
 Click **"Add"** for each.
 

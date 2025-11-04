@@ -39,7 +39,6 @@ A modern Progressive Web App for tracking daily expenses with support for recurr
 4. **Whitelist all IPs**: Add `0.0.0.0/0` to IP Access List
 5. **Get connection string**: 
    - Click "Connect" → "Connect your application"
-   - Copy string: `mongodb+srv://expense-user:PASSWORD@cluster.mongodb.net/expense-tracker`
 
 ### Step 2: Deploy to Vercel
 
@@ -63,8 +62,8 @@ A modern Progressive Web App for tracking daily expenses with support for recurr
    
    | Key | Value |
    |-----|-------|
-   | `MONGODB_URI` | `mongodb+srv://user:pass@cluster.mongodb.net/expense-tracker` |
-   | `JWT_SECRET` | Any random long string (e.g., `abc123xyz789...`) |
+   | `MONGODB_URI` | |
+   | `JWT_SECRET` | |
    | `VITE_GOOGLE_CLIENT_ID` | Your Google Client ID (optional) |
    
 4. **Redeploy** after adding environment variables

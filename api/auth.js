@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 

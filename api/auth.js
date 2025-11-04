@@ -232,7 +232,10 @@ const handler = async (req, res) => {
 
   } catch (error) {
     console.error('Auth error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ 
+      error: 'Internal server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
